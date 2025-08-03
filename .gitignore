@@ -20,6 +20,8 @@ env/
 venv/
 .env
 .venv/
+**/.venv/
+
 
 # IDE/editor files
 .vscode/
