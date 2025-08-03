@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}
+All Chai Page
+{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-6 text-center">All Types of Chai Available</h1>
+
+<!-- Responsive Grid Layout -->
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-4">
+
+    {% for chai in chais %}
+    <div class="" >
+        <img src="{{ chai.image.url }}" alt="{{ chai.name }}" class="w-full h-68 object-contain">
+        <div class="p-4 text-center ">
+            <h3 class="bg-amber-500 text-lg font-semibold text-center">{{ chai.name }}</h3>
+            <a  class="flex-col bg-amber-500 " href="{% url 'chai_detail' chai.id %}">
+                <button class="w-35">{{chai.type}}-{{chai.id}}</button>
+            </a>
+        </div>
+         
+    </div>
+    {% endfor %}
+
+</div>
+{% endblock %}

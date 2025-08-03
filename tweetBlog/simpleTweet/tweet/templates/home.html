@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block title %}Simple Tweet Blog{% endblock %}
+
+{% block content %}
+  <h1 class="text-2xl text-center mt-4">Welcome To Simple Tweet Blog</h1>
+
+  <!-- Search Form -->
+  <form method="GET" action="{% url 'home' %}" class="flex justify-center my-4">
+    <input
+      type="text"
+      name="q"
+      placeholder="Search tweets..."
+      value="{{ query }}"
+      class="w-1/2 p-2 border border-gray-300 rounded-l"
+    >
+    <button
+      type="submit"
+      class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-r"
+    >
+      Search
+    </button>
+  </form>
+
+  <!-- Tweet Grid -->
+  <div class="max-w-7xl mx-auto flex flex-wrap gap-3">
+    {% for tweet in tweets %}
+      <div class="max-w-sm bg-white border rounded-lg shadow-sm overflow-hidden mt-4">
+        {% if tweet.photo %}
+          <img
+            class="w-full h-64 object-cover"
+            src="{{ tweet.photo.url }}"
+            alt="{{ tweet.user.username }}’s photo"
+          />
+        {% endif %}
+        <div class="p-5">
+          <h5 class="text-2xl font-bold mb-2">{{ tweet.user.username }}</h5>
+          <p class="mb-3 text-gray-700">{{ tweet.text }}</p>
+
+          {% if tweet.user == request.user %}
+            <a href="{% url 'tweet_edit' tweet.id %}" class="inline-block px-3 py-2 bg-blue-600 text-white rounded mr-2">
+              Edit
+            </a>
+            <a href="{% url 'tweet_delete' tweet.id %}" class="inline-block px-3 py-2 bg-red-600 text-white rounded">
+              Delete
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    {% empty %}
+      <p class="text-center text-gray-500 mt-10">No tweets found.</p>
+    {% endfor %}
+  </div>
+{% endblock %}

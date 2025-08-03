@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center bg-gray-900 px-4">
+  <div class="w-full max-w-md bg-gray-800 rounded-lg shadow-md p-8">
+    
+    <h2 class="text-2xl font-bold text-white text-center mb-6">Login to Your Account</h2>
+
+    <form method="post" class="space-y-5">
+      {% csrf_token %}
+
+      {% for field in form %}
+        <div>
+          <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-1">
+            {{ field.label }}
+          </label>
+          {{ field }}
+          {% if field.errors %}
+            <p class="text-sm text-red-400 mt-1">{{ field.errors }}</p>
+          {% endif %}
+        </div>
+      {% endfor %}
+
+      <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
+        Login
+      </button>
+    </form>
+
+    <p class="mt-6 text-sm text-gray-400 text-center">
+      Don’t have an account?
+      <a href="{% url 'register' %}" class="text-blue-400 hover:underline font-medium">
+        Register here
+      </a>
+    </p>
+  </div>
+</div>
+{% endblock %}

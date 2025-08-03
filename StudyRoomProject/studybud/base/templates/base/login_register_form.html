@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+{% load widget_tweaks  %}
+{% block content %}
+
+{% if page == 'login' %}
+
+<!-- Login Page -->
+<div class="min-h-screen  flex items-center justify-center">
+  <div class="w-full max-w-sm bg-gray-900 text-white p-8 rounded shadow-md">
+    <h2 class="text-2xl font-bold text-center text-white mb-6">Login</h2>
+
+    <form method="POST" action="" class="space-y-4">
+      {% csrf_token %}
+
+      <!-- Username -->
+      <div>
+        <label for="username" class="block text-white font-medium mb-1">Username</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          placeholder="Enter username"
+          class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
+        />
+      </div>
+
+      <!-- Password -->
+      <div>
+        <label for="password" class="block text-white font-medium mb-1">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Enter password"
+          class="w-full px-3 py-2 border border-white rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
+        />
+      </div>
+
+      <!-- Submit Button -->
+      <div>
+        <button
+          type="submit"
+          class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
+        >
+          Login
+        </button>
+      </div>
+    </form>
+
+    <p class="text-white text-center mt-3">Haven't Signed Up yet?</p>
+    <a href="{% url 'register' %}" class="text-blue-400 font-bold hover:text-blue-500 hover:underline block text-center">Sign up</a>
+  </div>
+</div>
+
+{% else %}
+
+<!-- Register Page -->
+<div class="min-h-screen flex items-center justify-center">
+  <div class="w-full max-w-sm bg-gray-900 p-8 rounded shadow-md">
+    <h2 class="text-2xl font-bold text-center text-white mb-6">Register</h2>
+
+    <form method="POST" action="" class="space-y-4 text-white">
+      {% csrf_token %}
+
+      {% for field in form %}
+        <div>
+          <label for="{{ field.id_for_label }}" class="block py-1 text-white font-medium pl-2">
+            {{ field.label }}
+          </label>
+            {{field }}
+          
+          {% if field.errors %}
+            <p class="text-red-500 text-sm mt-1">{{ field.errors|striptags }}</p>
+          {% endif %}
+        </div>
+      {% endfor %}
+
+      <div>
+        <button
+          type="submit"
+          class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded"
+        >
+          Register
+        </button>
+      </div>
+    </form>
+
+    <p class="text-white text-center mt-3">Already have an account?</p>
+    <a href="{% url 'login' %}" class="text-blue-600 hover:underline block text-center text-2xl">Login</a>
+  </div>
+</div>
+
+{% endif %}
+
+{% endblock %}

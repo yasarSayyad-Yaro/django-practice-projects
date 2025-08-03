@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="flex flex-col md:flex-row gap-6 p-4">
+
+    <!-- Left Section: Room Content -->
+    <div class="flex-1 p-6 rounded-lg shadow">
+        <h1 class="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600">{{ room.name }}</h1>
+        <p class="text-white mt-2">{{ room.description }}</p>
+
+        <div class="mt-6">
+            <h3 class="text-xl font-semibold text-white mb-2">Conversation</h3>
+            <hr class="mb-4">
+
+            {% for message in room_messages %}
+            <div class="mb-4 bg-gray-50 p-4 rounded shadow-sm">
+                <div class="text-sm text-gray-500 mb-1">
+                    <span class="font-semibold text-gray-800">@{{ message.user }}</span> • {{ message.created|timesince }} ago
+                </div>
+
+                <p class="text-gray-700">{{ message.body }}</p>
+
+                {% if user.is_authenticated and user == message.user %}
+                <div class="mt-2 flex gap-4 text-sm text-blue-600">
+                    <a href="{% url 'update_message' message.id %}" class="hover:underline">Edit</a>
+                    <a href="{% url 'delete_message' message.id %}" class="hover:underline text-red-500">Delete</a>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if user.is_authenticated %}
+        <div class="mt-6">
+            <form action="" method="POST" class="flex items-center gap-4">
+                {% csrf_token %}
+                <input type="text" name="body" placeholder="Write your message..." class="flex-1 border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring focus:border-cyan-400">
+                <button type="submit" class="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded">Send</button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Right Section: Participants -->
+    <div class="w-full md:w-64  p-6 rounded-lg shadow h-fit">
+        <h3 class="text-xl font-semibold text-white  mb-4">Participants</h3>
+        {% for user in participants %}
+        <div class="py-2 border-b text-white">@{{ user.username }}</div>
+        {% empty %}
+        <p class="text-gray-500 text-sm">No participants yet.</p>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

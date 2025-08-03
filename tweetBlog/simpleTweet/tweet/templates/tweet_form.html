@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Simple Tweet Blog
+{% endblock %}
+
+{% block content %}
+<h1 class=" text-2xl text-white text-center mt-4">Welcome To Simple Tweet Blog</h1>
+
+<div class="max-w-xl mx-auto mt-10 bg-gray-800 shadow-md rounded-lg p-6 text-white">
+  <h2 class="text-2xl font-semibold mb-6 text-white">
+    {% if form.instance.pk %}
+      Edit Tweet
+    {% else %}
+      Create Tweet
+    {% endif %}
+  </h2>
+
+  <form method="post" enctype="multipart/form-data" class="space-y-5">
+    {% csrf_token %}
+    
+    {% for field in form %}
+      <div>
+        <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-200 mb-1">
+          {{ field.label }}
+        </label>
+        {{ field }}
+        {% if field.errors %}
+          <p class="text-sm text-red-400 mt-1">{{ field.errors }}</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+
+    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded mb-4">
+      {% if form.instance.pk %} Update {% else %} Post {% endif %}
+    </button>
+  </form>
+  <a class="bg-blue-400 text-center w-full block " href="{% url 'tweet_list' %}">Back to tweet list</a>
+</div>
+
+
+{% endblock %}

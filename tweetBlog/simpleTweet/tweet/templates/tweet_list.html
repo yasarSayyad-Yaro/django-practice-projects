@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Simple Tweet Blog
+{% endblock %}
+
+{% block content %}
+<h1 class=" text-2xl text-white text-center mt-4">Welcome To Simple Tweet Blog</h1>
+
+<a class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded ml-3 " href="{%url 'tweet_create'%}">
+    Create tweet
+</a>
+
+
+<div class="max-w-7xl mx-auto flex flex-wrap gap-3">
+{% for tweet in tweets %}
+
+
+<div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 mt-4 ml-4">
+    {% if tweet.photo %}
+    <a href="#">
+        
+        <img class="w-full h-64 object-contain rounded-t-lg" src="
+        {{tweet.photo.url}}" alt="" />
+    </a>
+    {% endif %}
+    
+    <div class="p-5">
+        <a href="#">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-transform: capitalize">{{tweet.user.username}}</h5>
+        </a>
+        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{tweet.text}}</p>
+
+    {%if tweet.user == request.user%}
+        <a href="{% url 'tweet_edit' tweet.id%}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            Edit
+        </a>
+        <a href="{% url 'tweet_delete' tweet.id%}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700">
+            Delete
+        </a>
+    {% endif %}
+    </div>
+</div>
+
+{% endfor %}
+
+</div>
+{% endblock %}
